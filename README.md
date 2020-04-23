@@ -5,5 +5,5 @@ A simple cross-platform rich text editor based on [RichMemo component](http://wi
 Windows 10
 ![img](img/windows.png?raw=true)
 
-Linux Mint 18.04 (Vimix theme)
+Linux Mint 19.2 
 ![img](img/linux.png?raw=true)
