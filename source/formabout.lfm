@@ -1,0 +1,36 @@
+object AboutBox: TAboutBox
+  Left = 1070
+  Height = 121
+  Top = 424
+  Width = 174
+  BorderStyle = bsDialog
+  ClientHeight = 121
+  ClientWidth = 174
+  Color = clWhite
+  Position = poScreenCenter
+  LCLVersion = '2.0.8.0'
+  object LabelName: TLabel
+    Left = 40
+    Height = 27
+    Top = 24
+    Width = 103
+    Caption = 'RichDemo'
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clNavy
+    Font.Height = -24
+    Font.Name = 'Times New Roman'
+    ParentColor = False
+    ParentFont = False
+  end
+  object LabelGPL: TLabel
+    Left = 24
+    Height = 13
+    Top = 72
+    Width = 129
+    Caption = 'Open Source Application'
+    Font.Color = clBlack
+    Font.Height = -11
+    ParentColor = False
+    ParentFont = False
+  end
+end

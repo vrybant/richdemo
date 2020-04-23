@@ -1,0 +1,15 @@
+*.dcu
+*.~*~
+*.local
+*.identcache
+*.drc
+*.map
+*.exe
+*.deb
+*.dll
+*.sh
+*.backup
+*.lintian
+source/bin/*
+source/lib/*
+source/backup/*
