@@ -10,7 +10,7 @@ uses
   LazUtf8, LCLProc, LCLVersion, ClipBrd;
 
 const
-  ApplicationName = 'RichMemo';
+  ApplicationName = 'RichDemo';
   DefaultFileName = 'Untitled';
 
 // string's functions

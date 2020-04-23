@@ -10,7 +10,7 @@ uses
 {$R *.res}
 
 begin
-  Application.Title := 'RichMemo';
+  Application.Title := 'RichDemo';
   Application.Initialize;
   Application.CreateForm(TMainForm,   MainForm);
   Application.CreateForm(TAboutBox,   AboutBox);
