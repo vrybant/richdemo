@@ -84,12 +84,14 @@ type
     N2: TMenuItem;
     N3: TMenuItem;
     N4: TMenuItem;
+    N5: TMenuItem;
     N9: TMenuItem;
 
     PopupMenu: TPopupMenu;
     pmCut: TMenuItem;
     pmCopy: TMenuItem;
     pmPaste: TMenuItem;
+    pmSelAll: TMenuItem;
 
     StandardToolBar: TToolBar;
     ToolButtonBold: TToolButton;

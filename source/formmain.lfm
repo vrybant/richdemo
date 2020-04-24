@@ -278,7 +278,6 @@ object MainForm: TMainForm
       end
       object miSelectAll: TMenuItem
         Action = ActionEditSelAll
-        Caption = 'Select all'
       end
     end
     object miHelp: TMenuItem
@@ -1571,6 +1570,12 @@ object MainForm: TMainForm
       Action = ActionEditPaste
       Caption = 'Paste'
     end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object pmSelAll: TMenuItem
+      Action = ActionEditSelAll
+    end
   end
   object ActionList: TActionList
     Images = Images
@@ -1670,9 +1675,9 @@ object MainForm: TMainForm
     end
     object ActionEditSelAll: TEditSelectAll
       Category = 'Edit'
-      Caption = 'Вы&делить все...'
+      Caption = 'Select All'
       Enabled = False
-      Hint = 'Выделить все'
+      Hint = 'Select All'
       OnExecute = CmdEdit
       ShortCut = 16449
     end
