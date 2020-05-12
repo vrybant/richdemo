@@ -157,7 +157,7 @@ type
     function isSelLink: boolean;
     function CanUndo: boolean;
     function CheckFileSave: boolean;
-    procedure EnableButtons;
+    procedure EnableActions;
     procedure UpDownButtons;
     procedure PerformFileOpen(const FileName: string);
     procedure ReadConfig;
@@ -207,7 +207,7 @@ begin
 
   {$ifdef darwin} exit; {$endif}
 
-  EnableButtons;
+  EnableActions;
   UpDownButtons;
 end;
 
@@ -396,7 +396,7 @@ begin
       RichMemo.SelLength := MaxInt;
     end;
 
-  EnableButtons;
+  EnableActions;
 end;
 
 procedure TMainForm.CmdSearch(Sender: TObject);
@@ -488,7 +488,7 @@ end;
 
 procedure TMainForm.RichMemoSelectionChange(Sender: TObject);
 begin
-  EnableButtons;
+  EnableActions;
   UpDownButtons;
 end;
 
@@ -548,7 +548,7 @@ begin
   if AMouseInfo.button = mbLeft then OpenURL(RichMemo.GetText(StartChar, LenChars));
 end;
 
-procedure TMainForm.EnableButtons;
+procedure TMainForm.EnableActions;
 begin
   ActionEditCopy.Enabled  := RichMemo.SelLength > 0;
   ActionEditCut.Enabled   := RichMemo.SelLength > 0;
