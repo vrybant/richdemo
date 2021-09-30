@@ -5,8 +5,8 @@ interface
 uses
   {$ifdef windows} Windows, Printers, OSPrinters, {$endif}
   Classes, SysUtils, LazFileUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Menus, ExtCtrls, ComCtrls, IniFiles, LCLIntf, LCLType, LCLProc, ActnList, ClipBrd,
-  StdActns, PrintersDlgs, Types, RichMemo, RichMemoUtils, UnitLib;
+  Menus, ExtCtrls, ComCtrls, LCLIntf, LCLType, LCLProc, ActnList, ClipBrd, StdActns,
+  XMLPropStorage, IniPropStorage, PrintersDlgs, Types, RichMemo, RichMemoUtils, UnitLib;
 
 type
 
@@ -18,6 +18,7 @@ type
     ActionIncrease: TAction;
     ActionInterline: TAction;
     FontDialogNotes: TFontDialog;
+    IniPropStorage: TIniPropStorage;
     PrintDialog: TPrintDialog;
     FontDialog: TFontDialog;
     OpenDialog: TOpenDialog;
@@ -134,15 +135,12 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure miHomeClick(Sender: TObject);
     procedure RichMemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
     procedure RichMemoKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure RichMemoMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure RichMemoSelectionChange(Sender: TObject);
-    procedure StandardToolBarClick(Sender: TObject);
   private
-    DefaultFont: TFont;
     NoteFileName: string;
     {$ifdef windows}
       function  GetModified: boolean;
@@ -160,10 +158,8 @@ type
     procedure EnableActions;
     procedure UpDownButtons;
     procedure PerformFileOpen(const FileName: string);
-    procedure ReadConfig;
-    procedure SaveConfig;
     procedure UpdateCaption(s: string);
-    procedure UpdateStatus(s, Hint: string);
+    procedure UpdateStatus(s: string);
     procedure ShowPopup;
     procedure OnLinkAction(Sender: TObject; AAction: TLinkAction;
       const AMouseInfo: TLinkMouseInfo; StartChar, LenChars: Integer);
@@ -186,17 +182,9 @@ uses
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  DefaultFont := TFont.Create;
-  DefaultFont.Name := {$ifdef windows} 'Tahoma' {$else} 'default' {$endif};
-  DefaultFont.Size := 12;
-
+  IniPropStorage.IniFileName := ConfigFileName;
   SaveDialog.InitialDir := DocumentsPath;
-  ReadConfig;
-
   NoteFileName := DefaultFileName;
-  RichMemo.Lines.Clear;
-  RichMemo.Font.Size := DefaultFont.Size;
-  RichMemo.OnLinkAction := OnLinkAction;
 
   {$ifdef linux}
   StandardToolBar.ParentColor := True;
@@ -205,16 +193,13 @@ begin
   Modified := False;
   {$endif}
 
-  {$ifdef darwin} exit; {$endif}
+  RichMemo.Lines.Clear;
+  RichMemo.OnLinkAction := OnLinkAction;
+
+  {$ifdef darwin} Exit; {$endif}
 
   EnableActions;
   UpDownButtons;
-end;
-
-procedure TMainForm.FormDestroy(Sender: TObject);
-begin
-  SaveConfig;
-  DefaultFont.Free;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -466,6 +451,15 @@ begin
   if PrintDialog.Execute then RichMemo.Print(Params);
 end;
 
+procedure TMainForm.CmdOptions(Sender: TObject);
+begin
+  FontDialog.Font.Assign(RichMemo.Font);
+  if FontDialog.Execute then
+    begin
+      RichMemo.Font.Assign(FontDialog.Font);
+      Invalidate;
+    end;
+end;
 
 procedure TMainForm.CmdExit(Sender: TObject);
 begin
@@ -492,11 +486,6 @@ begin
   UpDownButtons;
 end;
 
-procedure TMainForm.StandardToolBarClick(Sender: TObject);
-begin
-
-end;
-
 procedure TMainForm.RichMemoContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
 begin
   Handled := True; // disable system popup menu
@@ -507,10 +496,9 @@ begin
   Caption := ApplicationName + ' - ' + s;
 end;
 
-procedure TMainForm.UpdateStatus(s, Hint: string);
+procedure TMainForm.UpdateStatus(s: string);
 begin
   StatusBar.SimpleText := ' ' + s;
-  StatusBar.Hint := Hint;
 end;
 
 procedure TMainForm.ShowPopup;
@@ -568,7 +556,7 @@ begin
   ToolButtonUnderline.Down := fsUnderline in fp.Style;
   ToolButtonLink.Down := isSelLink;
 
-  UpdateStatus(fp.Name + '; ' + ToStr(fp.Size), '');
+  UpdateStatus(fp.Name + '; ' + fp.Size.ToString);
 
   case SelParaAlignment of
     paLeft: ToolButtonLeft.Down := True;
@@ -592,58 +580,6 @@ end;
 procedure TMainForm.miHomeClick(Sender: TObject);
 begin
   OpenURL('https://github.com/vrybant/richdemo');
-end;
-
-procedure TMainForm.CmdOptions(Sender: TObject);
-begin
-  FontDialog.Font.Assign(DefaultFont);
-  if FontDialog.Execute then
-  begin
-    DefaultFont.Assign(FontDialog.Font);
-//  FormPaint(self);
-    Invalidate;
-  end;
-end;
-
-//----------------------------------------------------------------------------------------
-//                                       config
-//----------------------------------------------------------------------------------------
-
-procedure TMainForm.SaveConfig;
-var
-  IniFile: TIniFile;
-begin
-  IniFile := TIniFile.Create(ConfigFileName);
-
-  IniFile.WriteString( 'Application', 'FontName', DefaultFont.Name);
-  IniFile.WriteInteger('Application', 'FontSize', DefaultFont.Size);
-
-  if WindowState = wsNormal then
-  begin
-    IniFile.WriteInteger('Window', 'Left',   Left);
-    IniFile.WriteInteger('Window', 'Top',    Top);
-    IniFile.WriteInteger('Window', 'Width',  Width);
-    IniFile.WriteInteger('Window', 'Height', Height);
-  end;
-
-  IniFile.Free;
-end;
-
-procedure TMainForm.ReadConfig;
-var
-  IniFile: TIniFile;
-begin
-  IniFile := TIniFile.Create(ConfigFileName);
-
-  DefaultFont.Name := IniFile.ReadString( 'Application', 'FontName', DefaultFont.Name);
-  DefaultFont.Size := IniFile.ReadInteger('Application', 'FontSize', DefaultFont.Size);
-
-  Height := IniFile.ReadInteger('Window', 'Height', Screen.Height - 300);
-  Width := IniFile.ReadInteger('Window', 'Width', Screen.Width - 700);
-  Left := IniFile.ReadInteger('Window', 'Left', 300);
-  Top := IniFile.ReadInteger('Window', 'Top', 100);
-
-  IniFile.Free;
 end;
 
 end.

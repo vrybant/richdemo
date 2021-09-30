@@ -1,17 +1,22 @@
 object MainForm: TMainForm
   Left = 448
-  Height = 360
-  Top = 315
+  Height = 361
+  Top = 314
   Width = 625
   Caption = 'RichDemo'
-  ClientHeight = 340
+  ClientHeight = 341
   ClientWidth = 625
+  Font.CharSet = RUSSIAN_CHARSET
+  Font.Color = clBlack
+  Font.Height = -16
+  Font.Pitch = fpVariable
+  Font.Quality = fqDraft
   Menu = MainMenu
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
-  LCLVersion = '2.0.8.0'
+  SessionProperties = 'Height;Left;RichMemo.Font;Top;Width'
+  LCLVersion = '2.0.12.0'
   object StandardToolBar: TToolBar
     Left = 0
     Height = 30
@@ -29,7 +34,6 @@ object MainForm: TMainForm
     ShowHint = True
     TabOrder = 1
     Wrapable = False
-    OnClick = StandardToolBarClick
     object ToolSeparator2: TToolButton
       Left = 88
       Height = 28
@@ -177,15 +181,18 @@ object MainForm: TMainForm
   object StatusBar: TStatusBar
     Left = 0
     Height = 23
-    Top = 317
+    Top = 318
     Width = 625
     Panels = <>
+    ParentBiDiMode = False
+    ParentColor = False
+    ParentFont = False
     ParentShowHint = False
     ShowHint = True
   end
   object Splitter: TSplitter
     Left = 0
-    Height = 285
+    Height = 286
     Top = 32
     Width = 5
   end
@@ -201,23 +208,30 @@ object MainForm: TMainForm
   end
   object RichMemo: TRichMemo
     Left = 5
-    Height = 285
+    Height = 286
     Top = 32
     Width = 620
     Align = alClient
+    Font.CharSet = RUSSIAN_CHARSET
+    Font.Color = clBlack
+    Font.Height = -16
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
     HideSelection = False
     OnContextPopup = RichMemoContextPopup
     OnKeyUp = RichMemoKeyUp
     OnMouseUp = RichMemoMouseUp
     OnSelectionChange = RichMemoSelectionChange
+    ParentBidiMode = False
+    ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 4
     ZoomFactor = 1
   end
   object MainMenu: TMainMenu
     Images = Images
-    left = 384
-    top = 224
+    Left = 384
+    Top = 224
     object miFile: TMenuItem
       Caption = 'File'
       object miNew: TMenuItem
@@ -299,8 +313,8 @@ object MainForm: TMainForm
     end
   end
   object Images: TImageList
-    left = 304
-    top = 112
+    Left = 304
+    Top = 112
     Bitmap = {
       4C69270000001000000010000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
@@ -1555,8 +1569,8 @@ object MainForm: TMainForm
   end
   object PopupMenu: TPopupMenu
     Images = Images
-    left = 384
-    top = 168
+    Left = 384
+    Top = 168
     object pmCut: TMenuItem
       Action = ActionEditCut
       Caption = 'Cut'
@@ -1579,8 +1593,8 @@ object MainForm: TMainForm
   end
   object ActionList: TActionList
     Images = Images
-    left = 384
-    top = 112
+    Left = 384
+    Top = 112
     object ActionAbout: THelpAction
       Caption = 'CmdAbout'
       ImageIndex = 31
@@ -1798,31 +1812,36 @@ object MainForm: TMainForm
   end
   object OpenDialog: TOpenDialog
     Filter = 'Rich Text Files (*.rtf)|*.rtf'
-    left = 224
-    top = 112
+    Left = 224
+    Top = 112
   end
   object FontDialog: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    left = 224
-    top = 168
+    Left = 224
+    Top = 168
   end
   object SaveDialog: TSaveDialog
     Filter = 'Rich Text Files (*.rtf)|*.rtf'
     Options = [ofHideReadOnly, ofEnableSizing, ofViewDetail]
-    left = 304
-    top = 224
+    Left = 304
+    Top = 224
   end
   object FontDialogNotes: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    left = 224
-    top = 224
+    Left = 224
+    Top = 224
   end
   object PrintDialog: TPrintDialog
     Collate = True
     Options = [poDisablePrintToFile]
-    left = 304
-    top = 168
+    Left = 304
+    Top = 168
+  end
+  object IniPropStorage: TIniPropStorage
+    StoredValues = <>
+    Left = 464
+    Top = 112
   end
 end
