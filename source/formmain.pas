@@ -5,8 +5,8 @@ interface
 uses
   {$ifdef windows} Windows, Printers, OSPrinters, {$endif}
   Classes, SysUtils, LazFileUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Menus, ExtCtrls, ComCtrls, LCLIntf, LCLType, LCLProc, ActnList, ClipBrd, StdActns,
-  XMLPropStorage, IniPropStorage, PrintersDlgs, Types, RichMemo, RichMemoUtils, UnitLib;
+  Menus, ExtCtrls, ComCtrls, LCLIntf, LCLType, LCLProc, ActnList, ClipBrd,
+  StdActns, IniPropStorage, PrintersDlgs, Types, RichMemo, RichMemoUtils, UnitLib;
 
 type
 
