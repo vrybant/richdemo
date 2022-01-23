@@ -4,7 +4,7 @@ interface
 
 uses
   {$ifdef windows} Windirs, {$endif}
-  {$ifdef linux} LazLogger, {$endif}
+  {$ifdef unix} LazLogger, {$endif}
   {$ifdef darwin} Process, UTF8Process, {$endif}
   SysUtils, Classes, Graphics, Controls, ExtCtrls, Forms, Dialogs,
   LazUtf8, LCLProc, LCLVersion, ClipBrd;
