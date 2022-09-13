@@ -15,14 +15,14 @@ implementation
 
 function GetSelectedTextAttributes(Handle: THandle): TFontParams;
 begin
-  RichEditManager.GetSelectedTextStyle(Handle, Result);
+  RichEditManager.GetSelectedTextStyle(Handle, Result{%H-});
 end;
 
 function GetTextUIStyle(Handle: THandle): TTextUIParam;
 var
   fmt : TCHARFORMAT2;
 begin
-  FillChar(Result, SizeOf(Result), 0);
+  FillChar(Result{%H-}, SizeOf(Result), 0);
   FillChar(fmt, SizeOf(fmt), 0);
   fmt.cbSize := SizeOf(fmt);
   fmt.dwMask := CFM_LINK;
@@ -89,7 +89,7 @@ end;
 function GetTextRange(Handle: THandle; Pos, Length: integer): string;
 var
   TextRange : RichEdit.TEXTRANGEW;
-  w : UnicodeString;
+  w : UnicodeString = '';
   res : LResult;
 begin
   FillChar(TextRange, sizeof(TextRange), 0);
